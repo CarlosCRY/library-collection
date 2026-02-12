@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 @Data
@@ -52,7 +53,7 @@ public class Library {
     public boolean confirmLend(String isbn, int number) {
         for (Customer customer : customers) {
             if (customer.getCNumber() == number) {
-                for (BookLend bLend : booklends) {
+                for (BookLend bLend: booklends) {
                     if (bLend.getNif().equals(customer.getNif()) && bLend.getIsbn().equals(isbn)) {
                         return true;
                     }
@@ -62,17 +63,23 @@ public class Library {
         return false;
     }
 
-    // public Set<String> bookGenre (String isbn) {
-    //     if (booksByIsbn.containsKey(isbn)) {
-    //         return booksByIsbn.get(isbn).getGenres();
-    //     } else {
-    //         return null;
-    //     }
-    // }
+    public Set<String> bookGenre (String isbn) {
+        if (booksByIsbn.containsKey(isbn)) {
+            return booksByIsbn.get(isbn).getGenres();
+        } else {
+            return null;
+        }
+    }
 
     public TreeSet<BookLend> bookLends(String isbn) {
         if (booksByIsbn.containsKey(isbn)) {
-            return booksByIsbn.get(isbn).getGenres();
+            TreeSet<BookLend> rBLend = new TreeSet<>();
+            for (BookLend bLend: booklends) {
+                if (bLend.getIsbn().equals(isbn)) {
+                    rBLend.add(bLend);
+                }
+            }
+            return rBLend;
         } else {
             return null;
         }
