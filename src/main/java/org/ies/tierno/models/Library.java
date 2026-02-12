@@ -19,7 +19,7 @@ public class Library {
 
     public List<Book> findByGenre(String genre) {
         List<Book> rBooks = new ArrayList<>();
-        for (Book book: booksByIsbn.values()) {
+        for (Book book : booksByIsbn.values()) {
             if (book.getGenres().contains(genre)) {
                 rBooks.add(book);
             }
@@ -27,9 +27,9 @@ public class Library {
         return rBooks;
     }
 
-    public List<Customer> findByZip (int zip) {
+    public List<Customer> findByZip(int zip) {
         List<Customer> rCustomers = new ArrayList<>();
-        for (Customer customer: customers) {
+        for (Customer customer : customers) {
             if (customer.getZipCode() == zip) {
                 rCustomers.add(customer);
             }
@@ -37,26 +37,24 @@ public class Library {
         return rCustomers;
     }
 
-    public void addBookLend (String isbn, String nif) {
+    public void addBookLend(String isbn, String nif) {
         BookLend newBL = new BookLend(isbn, nif, LocalDate.now());
         booklends.add(newBL);
     }
 
-    public void removeGenre (String isbn, String genre) {
+    public void removeGenre(String isbn, String genre) {
         if (booksByIsbn.containsKey(isbn)) {
             Book bRGenre = booksByIsbn.get(isbn);
             bRGenre.getGenres().remove(genre);
         }
     }
 
-    public boolean confirmLend (String isbn, int number) {
-        if (booksByIsbn.containsKey(isbn)) {
-            for (Customer customer: customers) {
-                if (customer.getCNumber() == number) {
-                    for (BookLend bLend: booklends){
-                        if (bLend.getNif().equals(customer.getNif())) {
-                            return true;
-                        }
+    public boolean confirmLend(String isbn, int number) {
+        for (Customer customer : customers) {
+            if (customer.getCNumber() == number) {
+                for (BookLend bLend : booklends) {
+                    if (bLend.getNif().equals(customer.getNif()) && bLend.getIsbn().equals(isbn)) {
+                        return true;
                     }
                 }
             }
@@ -72,5 +70,11 @@ public class Library {
     //     }
     // }
 
-    public
+    public TreeSet<BookLend> bookLends(String isbn) {
+        if (booksByIsbn.containsKey(isbn)) {
+            return booksByIsbn.get(isbn).getGenres();
+        } else {
+            return null;
+        }
+    }
 }
