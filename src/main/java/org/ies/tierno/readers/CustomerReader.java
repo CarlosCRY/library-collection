@@ -26,6 +26,7 @@ public class CustomerReader implements Reader <Customer> {
         scanner.nextLine();
         log.info("Introduzca código ZIP");
         int zipCode = scanner.nextInt();
+        scanner.nextLine();
 
 
         return new Customer(
